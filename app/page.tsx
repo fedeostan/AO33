@@ -84,6 +84,15 @@ export default function Home() {
   const [showCart, setShowCart] = useState(false)
   const [addedFeedback, setAddedFeedback] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  // Imágenes de la galería
+  const galleryImages = [
+    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.14.jpeg',
+    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.14 (4).jpeg',
+    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.13.jpeg',
+    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.15 (3).jpeg',
+  ]
 
   // Track scroll for header effect
   useEffect(() => {
@@ -91,6 +100,18 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (lightboxIndex === null) return
+      if (e.key === 'Escape') setLightboxIndex(null)
+      if (e.key === 'ArrowLeft') setLightboxIndex(lightboxIndex === 0 ? galleryImages.length - 1 : lightboxIndex - 1)
+      if (e.key === 'ArrowRight') setLightboxIndex(lightboxIndex === galleryImages.length - 1 ? 0 : lightboxIndex + 1)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightboxIndex, galleryImages.length])
 
   // Track view_item on mount
   useEffect(() => {
@@ -462,24 +483,95 @@ Total: ${formatPrice(cartTotal)}`
         <div className="max-w-6xl mx-auto">
           <p className="text-center text-xs font-bold text-gray-500 tracking-[0.3em] mb-10">GALERÍA</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {[
-              '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.14.jpeg',
-              '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.14 (4).jpeg',
-              '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.13.jpeg',
-              '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.15 (3).jpeg',
-            ].map((src, i) => (
-              <div key={i} className="aspect-square relative overflow-hidden bg-[#1a1a1a]">
+            {galleryImages.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setLightboxIndex(i)}
+                className="aspect-square relative overflow-hidden bg-[#1a1a1a] cursor-pointer group"
+              >
                 <Image
                   src={src}
                   alt={`Galería ${i + 1}`}
                   fill
-                  className="object-cover hover:scale-110 transition-transform duration-500"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-              </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                  </svg>
+                </div>
+              </button>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Lightbox Modal */}
+      {lightboxIndex !== null && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+          onClick={() => setLightboxIndex(null)}
+        >
+          {/* Close button */}
+          <button
+            onClick={() => setLightboxIndex(null)}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-white/70 hover:text-white transition-colors z-10"
+            aria-label="Cerrar"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Previous button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setLightboxIndex(lightboxIndex === 0 ? galleryImages.length - 1 : lightboxIndex - 1)
+            }}
+            className="absolute left-2 sm:left-6 p-2 sm:p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-all z-10"
+            aria-label="Anterior"
+          >
+            <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Next button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setLightboxIndex(lightboxIndex === galleryImages.length - 1 ? 0 : lightboxIndex + 1)
+            }}
+            className="absolute right-2 sm:right-6 p-2 sm:p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-all z-10"
+            aria-label="Siguiente"
+          >
+            <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Image container */}
+          <div
+            className="relative w-full h-full max-w-5xl max-h-[85vh] mx-4 sm:mx-12 flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={galleryImages[lightboxIndex]}
+              alt={`Galería ${lightboxIndex + 1}`}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 80vw"
+              priority
+            />
+          </div>
+
+          {/* Image counter */}
+          <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm tracking-wider">
+            {lightboxIndex + 1} / {galleryImages.length}
+          </div>
+        </div>
+      )}
 
       {/* Floating WhatsApp Button (mobile) */}
       {cartCount > 0 && (
