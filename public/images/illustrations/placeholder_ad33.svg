@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#1a1a1a"/>
+
+  <!-- Silueta de guante estilizada -->
+  <g transform="translate(80, 60)">
+    <!-- Dedos -->
+    <path d="M60 20 L60 100 Q60 120 80 120 L80 100 L80 20 Q80 0 70 0 Q60 0 60 20" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+    <path d="M85 10 L85 110 Q85 130 105 130 L105 110 L105 10 Q105 -10 95 -10 Q85 -10 85 10" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+    <path d="M110 0 L110 120 Q110 140 130 140 L130 120 L130 0 Q130 -20 120 -20 Q110 -20 110 0" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+    <path d="M135 10 L135 110 Q135 130 155 130 L155 110 L155 10 Q155 -10 145 -10 Q135 -10 135 10" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+    <path d="M160 30 L160 100 Q160 120 180 120 L180 100 L180 30 Q180 10 170 10 Q160 10 160 30" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+
+    <!-- Palma -->
+    <path d="M50 100 Q30 110 30 150 L30 220 Q30 260 70 260 L170 260 Q210 260 210 220 L210 150 Q210 110 190 100" fill="#2a2a2a" stroke="#3a3a3a" stroke-width="2"/>
+
+    <!-- Muñequera -->
+    <rect x="30" y="250" width="180" height="30" rx="5" fill="#e31937" opacity="0.3"/>
+  </g>
+
+  <!-- Texto "Proximamente" -->
+  <text x="200" y="350" text-anchor="middle" fill="#e31937" font-family="Arial, sans-serif" font-size="18" font-weight="bold">
+    PROXIMAMENTE
+  </text>
+
+  <!-- Logo AO33 hint -->
+  <text x="200" y="375" text-anchor="middle" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="12">
+    AD33 ROLLFINGER
+  </text>
+</svg>

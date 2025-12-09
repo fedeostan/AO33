@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import './globals.css'
+import { CartProvider } from '@/components/CartProvider'
 
 // Reemplazar con tu ID de Google Analytics
 const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'
@@ -53,7 +54,9 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="bg-[#0a0a0a] text-white antialiased" suppressHydrationWarning>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   )
