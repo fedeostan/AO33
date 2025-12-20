@@ -14,10 +14,38 @@ export default function CartDropdown({ onClose }: CartDropdownProps) {
   return (
     <>
       {/* Overlay para cerrar */}
-      <div className="fixed inset-0 z-40" onClick={onClose} />
+      <div
+        className="fixed inset-0 z-40 bg-black/20"
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       {/* Dropdown */}
       <div className="absolute right-0 top-full mt-2 w-80 bg-[#1a1a1a] border border-white/10 rounded-lg shadow-2xl z-50 overflow-hidden">
+        {/* Header con botón cerrar */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+          <span className="text-sm font-medium text-white/80">Tu carrito</span>
+          <button
+            onClick={onClose}
+            className="p-1 text-white/40 hover:text-white transition-colors"
+            aria-label="Cerrar carrito"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
         {items.length === 0 ? (
           <div className="p-6 text-center">
             <svg

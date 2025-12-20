@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import type { Product, ProductColor } from '@/types'
 import { useCart } from './CartProvider'
 import ColorSelector from './ColorSelector'
 import SizeSelector from './SizeSelector'
-import { formatPrice, DEFAULT_SIZE } from '@/lib/utils'
+import { formatPrice, DEFAULT_SIZE, getPriceForSize } from '@/lib/utils'
 
 interface ProductSlideOverProps {
   product: Product | null
@@ -20,6 +20,21 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
   const [quantity, setQuantity] = useState(1)
   const [addedFeedback, setAddedFeedback] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Combine color images + gallery images
+  const allImages = useMemo(() => {
+    if (!product) return []
+    const colorImages = product.colors.map(c => c.image)
+    const galleryImages = product.galleryImages || []
+    return [...colorImages, ...galleryImages]
+  }, [product])
+
+  // Calcular precio según talla seleccionada
+  const currentPrice = useMemo(() => {
+    if (!product) return 0
+    return getPriceForSize(product.priceSmall, product.priceLarge, selectedSize)
+  }, [product, selectedSize])
 
   // Inicializar estado cuando cambia el producto
   useEffect(() => {
@@ -27,12 +42,29 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
       setSelectedColor(product.colors[0])
       setSelectedSize(DEFAULT_SIZE)
       setQuantity(1)
+      setCurrentImageIndex(0)
       // Delay para animación
       setTimeout(() => setIsVisible(true), 10)
     } else {
       setIsVisible(false)
     }
   }, [product])
+
+  // Sync color selection with image index
+  const handleColorChange = (color: ProductColor) => {
+    setSelectedColor(color)
+    const colorIndex = product?.colors.findIndex(c => c.id === color.id) ?? 0
+    setCurrentImageIndex(colorIndex)
+  }
+
+  // Navigation
+  const goToPrevImage = () => {
+    setCurrentImageIndex(prev => (prev === 0 ? allImages.length - 1 : prev - 1))
+  }
+
+  const goToNextImage = () => {
+    setCurrentImageIndex(prev => (prev === allImages.length - 1 ? 0 : prev + 1))
+  }
 
   // Manejar tecla ESC
   useEffect(() => {
@@ -59,7 +91,7 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
       colorName: selectedColor.name,
       size: selectedSize,
       quantity,
-      price: product.price,
+      price: currentPrice,
       image: selectedColor.image,
     })
 
@@ -104,11 +136,11 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
 
         {/* Contenido */}
         <div className="p-4 space-y-6">
-          {/* Imagen grande */}
+          {/* Imagen grande con carrusel */}
           <div className="relative aspect-square rounded-xl overflow-hidden bg-white/5">
             <Image
-              src={selectedColor.image}
-              alt={`${product.name} ${selectedColor.name}`}
+              src={allImages[currentImageIndex] || selectedColor.image}
+              alt={`${product.name} ${currentImageIndex + 1}`}
               fill
               className="object-cover"
               priority
@@ -117,6 +149,49 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
               <div className="absolute top-4 left-4 px-4 py-2 bg-[#e31937] text-white text-sm font-bold rounded-full">
                 PROXIMAMENTE
               </div>
+            )}
+
+            {/* Navigation arrows */}
+            {allImages.length > 1 && (
+              <>
+                <button
+                  onClick={goToPrevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors"
+                  aria-label="Imagen anterior"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={goToNextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors"
+                  aria-label="Imagen siguiente"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* Image counter */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 text-white text-sm font-medium">
+                  {currentImageIndex + 1} / {allImages.length}
+                </div>
+
+                {/* Dot indicators */}
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
+                  {allImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        index === currentImageIndex ? 'bg-white' : 'bg-white/40'
+                      }`}
+                      aria-label={`Ir a imagen ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
             )}
           </div>
 
@@ -128,7 +203,7 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
           </div>
 
           {/* Precio */}
-          <p className="text-3xl font-bold">{formatPrice(product.price)}</p>
+          <p className="text-3xl font-bold">{formatPrice(currentPrice)}</p>
 
           {/* Descripción */}
           <p className="text-sm text-white/70 leading-relaxed">{product.description}</p>
@@ -183,7 +258,7 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
                 <ColorSelector
                   colors={product.colors}
                   selected={selectedColor.id}
-                  onChange={setSelectedColor}
+                  onChange={handleColorChange}
                 />
               </div>
 
@@ -237,7 +312,7 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
               ? 'Proximamente'
               : addedFeedback
               ? 'Agregado al carrito!'
-              : `Agregar al carrito - ${formatPrice(product.price * quantity)}`}
+              : `Agregar al carrito - ${formatPrice(currentPrice * quantity)}`}
           </button>
         </div>
       </div>

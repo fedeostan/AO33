@@ -18,7 +18,8 @@ export interface Product {
   name: string
   subtitle: string
   sku: string
-  price: number
+  priceSmall: number  // Precio para tallas 6-8
+  priceLarge: number  // Precio para tallas 9-11
   claim: string
   description: string
   cutType: string
@@ -32,6 +33,7 @@ export interface Product {
   available: boolean
   comingSoon?: boolean
   order: number
+  galleryImages?: string[]
 }
 
 export interface CartItem {

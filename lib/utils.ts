@@ -1,10 +1,14 @@
 // Utilidades compartidas para AO33
 
 // Configuración global
-export const WHATSAPP_NUMBER = '573001234567'
-export const PRICE = 280000
+export const WHATSAPP_NUMBER = '573182114678'
 export const DEFAULT_SIZE = 9
-export const SIZES = [7, 8, 9, 10, 11]
+export const SIZES = [6, 7, 8, 9, 10, 11]
+
+// Helper para obtener precio según talla
+export function getPriceForSize(priceSmall: number, priceLarge: number, size: number): number {
+  return size <= 8 ? priceSmall : priceLarge
+}
 
 // Declaración global para Google Analytics
 declare global {

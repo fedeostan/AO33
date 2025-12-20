@@ -11,12 +11,16 @@ export default function Home() {
   const { itemCount, total, handleWhatsAppCheckout } = useCart()
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  // Imágenes de la galería
+  // Imágenes de la galería (solo de carpeta galeria)
   const galleryImages = [
-    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.14.jpeg',
-    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.14 (4).jpeg',
-    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.13.jpeg',
-    '/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.15 (3).jpeg',
+    '/images/illustrations/galeria/Mark2_arte_1.png',
+    '/images/illustrations/galeria/mark1_black.png',
+    '/images/illustrations/galeria/mark1_white.png',
+    '/images/illustrations/galeria/mark2_arte_2.png',
+    '/images/illustrations/galeria/mark2_creative.png',
+    '/images/illustrations/galeria/read_mark1.png',
+    '/images/illustrations/galeria/agarrando_pelota.jpeg',
+    '/images/illustrations/galeria/WhatsApp Image 2025-09-28 at 18.27.15 (3).png',
   ]
 
   // Keyboard navigation for lightbox
@@ -81,88 +85,23 @@ export default function Home() {
       {/* Trust Stats */}
       <section className="py-16 px-4 bg-[#0a0a0a] border-y border-white/10">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-2 gap-8 text-center max-w-md mx-auto">
             <div>
               <p className="text-4xl sm:text-5xl font-black text-white">15+</p>
               <p className="text-xs sm:text-sm text-gray-500 mt-2 tracking-wider uppercase">Años Experiencia</p>
             </div>
-            <div className="border-x border-white/10">
-              <p className="text-4xl sm:text-5xl font-black text-white">200+</p>
+            <div className="border-l border-white/10 pl-8">
+              <p className="text-4xl sm:text-5xl font-black text-white">100+</p>
               <p className="text-xs sm:text-sm text-gray-500 mt-2 tracking-wider uppercase">Partidos Int.</p>
-            </div>
-            <div>
-              <p className="text-4xl sm:text-5xl font-black text-white">3</p>
-              <p className="text-xs sm:text-sm text-gray-500 mt-2 tracking-wider uppercase">Copas América</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Highlights */}
-      <section className="py-20 px-4 bg-[#0a0a0a]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-center text-2xl sm:text-3xl font-black tracking-tight mb-16">
-            NUESTROS GUANTES
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            {/* MARK 1 */}
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 flex-shrink-0">
-                <Image
-                  src="/images/illustrations/mark1_rojo.png"
-                  alt="MARK 1 Negative Cut"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <div className="text-center md:text-left">
-                <h3 className="text-xl font-black mb-1">MARK 1</h3>
-                <p className="text-sm text-white/60 mb-3">NEGATIVE CUT</p>
-                <p className="text-sm text-white/70 leading-relaxed mb-4">
-                  Ajuste excepcional con corte Negative Cut para un contacto más directo con el balón. Diseñado para arqueros que priorizan control, sensibilidad y precisión.
-                </p>
-                <Link
-                  href="/productos?product=mark-1"
-                  className="inline-block border border-white/80 hover:bg-white hover:text-black px-6 py-2.5 text-sm font-bold tracking-wider transition-all"
-                >
-                  COMPRAR AHORA
-                </Link>
-              </div>
-            </div>
-
-            {/* MARK 2 */}
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 flex-shrink-0">
-                <Image
-                  src="/images/illustrations/mark2_rojo.png"
-                  alt="MARK 2 Doble Cierre"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <div className="text-center md:text-left">
-                <h3 className="text-xl font-black mb-1">MARK 2</h3>
-                <p className="text-sm text-white/60 mb-3">NEGATIVE CUT DOBLE CIERRE</p>
-                <p className="text-sm text-white/70 leading-relaxed mb-4">
-                  Combina el popular corte Negative Cut con un sistema de doble cierre elástico para máxima seguridad. Perfecto para partidos y entrenamientos exigentes.
-                </p>
-                <Link
-                  href="/productos?product=mark-2"
-                  className="inline-block border border-white/80 hover:bg-white hover:text-black px-6 py-2.5 text-sm font-bold tracking-wider transition-all"
-                >
-                  COMPRAR AHORA
-                </Link>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Sección Comprar Ahora - Imágenes en paralelo */}
-      <section className="py-16 md:py-24 px-4 bg-[#0a0a0a]">
+      <section className="pt-16 md:pt-24 px-4 bg-[#0a0a0a]">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {/* Card MARK 1 */}
             <Link href="/productos?product=mark-1" className="group relative overflow-hidden">
               <div className="relative aspect-[4/5]">
@@ -185,12 +124,12 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* Card AD33 */}
-            <Link href="/productos?product=ad33" className="group relative overflow-hidden">
+            {/* Card SKINNING ROLL */}
+            <Link href="/productos?product=skinning-roll" className="group relative overflow-hidden">
               <div className="relative aspect-[4/5]">
                 <Image
                   src="/images/illustrations/WhatsApp Image 2025-10-07 at 16.21.41.jpeg"
-                  alt="AD33"
+                  alt="SKINNING ROLL"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -210,16 +149,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="py-16 px-4 bg-[#0a0a0a]">
+      {/* Mark 2 Banner */}
+      <section className="pt-4 md:pt-6 pb-8 md:pb-12 px-4 bg-[#0a0a0a]">
         <div className="max-w-6xl mx-auto">
-          <p className="text-center text-xs font-bold text-gray-500 tracking-[0.3em] mb-10">GALERÍA</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <Link href="/productos?product=mark-2" className="group block relative overflow-hidden">
+            <div className="relative aspect-[21/9] md:aspect-[21/7]">
+              <Image
+                src="/images/illustrations/mark2_tres_juntos.png"
+                alt="MARK 2 - El control está en tus manos"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              {/* Overlay con contenido */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-black/70 md:from-transparent md:via-transparent md:to-transparent md:bg-black/0 group-hover:bg-black/50 transition-all duration-300">
+                <div className="absolute inset-0 flex items-center justify-between px-6 md:px-12 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-lg md:text-2xl lg:text-3xl font-light italic max-w-[50%] drop-shadow-lg">
+                    &quot;El control está en tus manos&quot;
+                  </p>
+                  <span className="bg-white text-black px-6 md:px-8 py-3 rounded-full font-medium text-sm md:text-base tracking-wide whitespace-nowrap shadow-lg">
+                    Comprar ya
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Gallery Section - Horizontal Scroll */}
+      <section className="py-12 bg-[#0a0a0a]">
+        <div className="max-w-6xl mx-auto px-4">
+          <p className="text-center text-xs font-bold text-gray-500 tracking-[0.3em] mb-6">GALERÍA</p>
+        </div>
+        <div className="overflow-x-auto scrollbar-hide">
+          <div className="flex gap-3 px-4 pb-4" style={{ width: 'max-content' }}>
             {galleryImages.map((src, i) => (
               <button
                 key={i}
                 onClick={() => setLightboxIndex(i)}
-                className="aspect-square relative overflow-hidden bg-[#1a1a1a] cursor-pointer group"
+                className="relative w-64 h-64 md:w-72 md:h-72 flex-shrink-0 overflow-hidden rounded-lg bg-[#1a1a1a] cursor-pointer group"
               >
                 <Image
                   src={src}

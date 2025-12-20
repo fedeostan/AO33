@@ -1,7 +1,13 @@
 // Datos de productos AO33
 
 import type { Product } from '@/types'
-import { PRICE, SIZES } from './utils'
+import { SIZES } from './utils'
+
+// Precios por talla
+const MARK_PRICE_SMALL = 230000   // Tallas 6-8
+const MARK_PRICE_LARGE = 250000   // Tallas 9-11
+const SKINNING_PRICE_SMALL = 270000  // Tallas 6-8
+const SKINNING_PRICE_LARGE = 290000  // Tallas 9-11
 
 export const products: Product[] = [
   {
@@ -10,7 +16,8 @@ export const products: Product[] = [
     name: 'MARK 1',
     subtitle: 'NEGATIVE CUT',
     sku: 'AC33-NC',
-    price: PRICE,
+    priceSmall: MARK_PRICE_SMALL,
+    priceLarge: MARK_PRICE_LARGE,
     claim: 'Control total. Sensación pura.',
     description: 'El guante MARK 1 ofrece un ajuste excepcional gracias a su corte Negative Cut, que permite un contacto más directo con el balón. Diseñado para arqueros que priorizan control, sensibilidad y precisión.',
     cutType: 'Negative Cut (costuras internas)',
@@ -45,6 +52,7 @@ export const products: Product[] = [
     sizes: SIZES,
     available: true,
     order: 1,
+    galleryImages: ['/images/illustrations/mark1_tres_juntos.png'],
   },
   {
     id: 'mark-2',
@@ -52,7 +60,8 @@ export const products: Product[] = [
     name: 'MARK 2',
     subtitle: 'NEGATIVE CUT DOBLE CIERRE',
     sku: 'AC33-DC',
-    price: PRICE,
+    priceSmall: MARK_PRICE_SMALL,
+    priceLarge: MARK_PRICE_LARGE,
     claim: 'El control está en tus manos.',
     description: 'El MARK 2 combina el popular corte Negative Cut con un sistema de doble cierre elástico para máxima seguridad. Perfecto para partidos y entrenamientos exigentes.',
     cutType: 'Negative Cut (costuras internas)',
@@ -88,16 +97,18 @@ export const products: Product[] = [
     sizes: SIZES,
     available: true,
     order: 2,
+    galleryImages: ['/images/illustrations/mark2_tres_juntos.png'],
   },
   {
-    id: 'ad33',
-    slug: 'ad33-rollfinger',
-    name: 'AD33',
+    id: 'skinning-roll',
+    slug: 'skinning-roll-rollfinger',
+    name: 'SKINNING ROLL',
     subtitle: 'ROLLFINGER',
-    sku: 'AD33-RF',
-    price: PRICE,
+    sku: 'AO33-SR',
+    priceSmall: SKINNING_PRICE_SMALL,
+    priceLarge: SKINNING_PRICE_LARGE,
     claim: 'Agarre superior. Seguridad total.',
-    description: 'El AD33 Rollfinger presenta un corte envolvente que maximiza el área de contacto con el balón. Ideal para arqueros que priorizan adherencia y control en entrenamientos y competencia.',
+    description: 'El SKINNING ROLL presenta un corte envolvente que maximiza el área de contacto con el balón. Ideal para arqueros que priorizan adherencia y control en entrenamientos y competencia.',
     cutType: 'Rollfinger (envolvente)',
     palm: 'Látex de alto rendimiento, superficie continua, máximo grip',
     body: 'Base elástica tipo neopreno, ajuste anatómico',
@@ -111,28 +122,16 @@ export const products: Product[] = [
     ],
     colors: [
       {
-        id: 'rojo',
-        name: 'Rojo',
-        hex: '#e31937',
-        image: '/images/illustrations/placeholder_ad33.svg',
-      },
-      {
-        id: 'blanco',
-        name: 'Blanco',
-        hex: '#ffffff',
-        image: '/images/illustrations/placeholder_ad33.svg',
-      },
-      {
-        id: 'negro',
-        name: 'Negro',
+        id: 'default',
+        name: 'Default',
         hex: '#0a0a0a',
-        image: '/images/illustrations/placeholder_ad33.svg',
+        image: '/images/illustrations/Skinning Roll.png',
       },
     ],
     sizes: SIZES,
-    available: false,
-    comingSoon: true,
+    available: true,
     order: 3,
+    galleryImages: ['/images/illustrations/WhatsApp Image 2025-10-07 at 16.21.41.jpeg'],
   },
 ]
 

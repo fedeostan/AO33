@@ -6,7 +6,7 @@ import type { Product, ProductColor } from '@/types'
 import { useCart } from './CartProvider'
 import ColorSelector from './ColorSelector'
 import SizeSelector from './SizeSelector'
-import { formatPrice, DEFAULT_SIZE } from '@/lib/utils'
+import { formatPrice, DEFAULT_SIZE, getPriceForSize } from '@/lib/utils'
 
 interface ProductCardProps {
   product: Product
@@ -19,6 +19,9 @@ export default function ProductCard({ product, onOpenDetail }: ProductCardProps)
   const [selectedSize, setSelectedSize] = useState(DEFAULT_SIZE)
   const [addedFeedback, setAddedFeedback] = useState(false)
 
+  // Calcular precio según talla seleccionada
+  const currentPrice = getPriceForSize(product.priceSmall, product.priceLarge, selectedSize)
+
   const handleAddToCart = () => {
     if (!product.available) return
 
@@ -30,7 +33,7 @@ export default function ProductCard({ product, onOpenDetail }: ProductCardProps)
       colorName: selectedColor.name,
       size: selectedSize,
       quantity: 1,
-      price: product.price,
+      price: currentPrice,
       image: selectedColor.image,
     })
 
@@ -81,7 +84,7 @@ export default function ProductCard({ product, onOpenDetail }: ProductCardProps)
         </div>
 
         {/* Precio */}
-        <p className="text-xl font-bold">{formatPrice(product.price)}</p>
+        <p className="text-xl font-bold">{formatPrice(currentPrice)}</p>
 
         {/* Selector de color */}
         <div>
