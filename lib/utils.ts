@@ -1,7 +1,7 @@
 // Utilidades compartidas para AO33
 
 // Configuración global
-export const WHATSAPP_NUMBER = '573182114678'
+export const WHATSAPP_NUMBER = '573174455663'
 export const DEFAULT_SIZE = 9
 export const SIZES = [6, 7, 8, 9, 10, 11]
 
