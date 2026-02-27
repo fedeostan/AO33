@@ -22,6 +22,7 @@ export function formatPrice(price: number): string {
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
+    currencyDisplay: 'code',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(price)
