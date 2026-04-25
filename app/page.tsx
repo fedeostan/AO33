@@ -300,6 +300,20 @@ export default function Home() {
           </div>
           <p className="text-xs text-gray-500 tracking-widest">PURE GOALKEEPING</p>
           <p className="text-xs text-gray-600 mt-4">Colombia</p>
+          <a
+            href="https://www.instagram.com/alejandrootamendi33/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors mt-6"
+            aria-label="Instagram"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            <span className="text-xs tracking-wider">@alejandrootamendi33</span>
+          </a>
         </div>
       </footer>
     </main>
