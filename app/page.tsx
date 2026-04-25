@@ -19,8 +19,6 @@ export default function Home() {
     '/images/illustrations/galeria/mark2_arte_2.png',
     '/images/illustrations/galeria/mark2_creative.png',
     '/images/illustrations/galeria/read_mark1.png',
-    '/images/illustrations/galeria/agarrando_pelota.jpeg',
-    '/images/illustrations/galeria/WhatsApp Image 2025-09-28 at 18.27.15 (3).png',
   ]
 
   // Keyboard navigation for lightbox
@@ -45,7 +43,7 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/images/illustrations/WhatsApp Image 2025-09-28 at 18.27.15 (4).png"
+            src="/images/illustrations/gloves-holding-ball(1).png"
             alt="Entrenador Selección Colombia"
             fill
             className="object-cover object-top"
@@ -106,7 +104,7 @@ export default function Home() {
             <Link href="/productos?product=mark-1" className="group relative overflow-hidden">
               <div className="relative aspect-[4/5]">
                 <Image
-                  src="/images/illustrations/WhatsApp Image 2025-09-28 at 18.32.24.jpeg"
+                  src="/images/illustrations/arquero-amor-pelota.png"
                   alt="MARK 1"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -128,7 +126,7 @@ export default function Home() {
             <Link href="/productos?product=skinning-roll" className="group relative overflow-hidden">
               <div className="relative aspect-[4/5]">
                 <Image
-                  src="/images/illustrations/WhatsApp Image 2025-10-07 at 16.21.41.jpeg"
+                  src="/images/illustrations/gloves-holding-ball(1).png"
                   alt="SKINNING ROLL"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"

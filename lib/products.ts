@@ -131,7 +131,7 @@ export const products: Product[] = [
     sizes: SIZES,
     available: true,
     order: 3,
-    galleryImages: ['/images/illustrations/WhatsApp Image 2025-10-07 at 16.21.41.jpeg'],
+    galleryImages: ['/images/illustrations/gloves-holding-ball(1).png'],
   },
 ]
 
