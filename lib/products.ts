@@ -6,6 +6,8 @@ import { SIZES } from './utils'
 // Precios por talla
 const MARK_PRICE_SMALL = 230000   // Tallas 6-8
 const MARK_PRICE_LARGE = 250000   // Tallas 9-11
+const MARK2_PRICE_SMALL = 250000  // Tallas 6-8
+const MARK2_PRICE_LARGE = 270000  // Tallas 9-11
 const SKINNING_PRICE_SMALL = 270000  // Tallas 6-8
 const SKINNING_PRICE_LARGE = 290000  // Tallas 9-11
 
@@ -60,8 +62,8 @@ export const products: Product[] = [
     name: 'MARK 2',
     subtitle: 'NEGATIVE CUT DOBLE CIERRE',
     sku: 'AC33-DC',
-    priceSmall: MARK_PRICE_SMALL,
-    priceLarge: MARK_PRICE_LARGE,
+    priceSmall: MARK2_PRICE_SMALL,
+    priceLarge: MARK2_PRICE_LARGE,
     claim: 'El control está en tus manos.',
     description: 'El MARK 2 combina el popular corte Negative Cut con un sistema de doble cierre elástico para máxima seguridad. Perfecto para partidos y entrenamientos exigentes.',
     cutType: 'Negative Cut (costuras internas)',
