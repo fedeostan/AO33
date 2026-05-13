@@ -5,6 +5,7 @@ export interface ProductColor {
   name: string
   hex: string
   image: string
+  cutImage?: string
 }
 
 export interface ProductFeature {

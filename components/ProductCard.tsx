@@ -4,128 +4,129 @@ import { useState } from 'react'
 import Image from 'next/image'
 import type { Product, ProductColor } from '@/types'
 import { useCart } from './CartProvider'
-import ColorSelector from './ColorSelector'
-import SizeSelector from './SizeSelector'
 import { formatPrice, DEFAULT_SIZE, getPriceForSize } from '@/lib/utils'
 
 interface ProductCardProps {
   product: Product
-  onOpenDetail: (product: Product) => void
+  color: ProductColor
+  onOpenDetail: (product: Product, colorId: string) => void
 }
 
-export default function ProductCard({ product, onOpenDetail }: ProductCardProps) {
+export default function ProductCard({ product, color, onOpenDetail }: ProductCardProps) {
   const { addItem } = useCart()
-  const [selectedColor, setSelectedColor] = useState<ProductColor>(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(DEFAULT_SIZE)
   const [addedFeedback, setAddedFeedback] = useState(false)
 
-  // Calcular precio según talla seleccionada
   const currentPrice = getPriceForSize(product.priceSmall, product.priceLarge, selectedSize)
 
   const handleAddToCart = () => {
     if (!product.available) return
-
     addItem({
       productId: product.id,
       productName: product.name,
       productSubtitle: product.subtitle,
-      colorId: selectedColor.id,
-      colorName: selectedColor.name,
+      colorId: color.id,
+      colorName: color.name,
       size: selectedSize,
       quantity: 1,
       price: currentPrice,
-      image: selectedColor.image,
+      image: color.image,
     })
-
-    // Feedback visual
     setAddedFeedback(true)
     setTimeout(() => setAddedFeedback(false), 1500)
   }
 
   return (
-    <div className="bg-[#1a1a1a] rounded-2xl overflow-hidden border border-white/5 hover:border-white/10 transition-all">
-      {/* Imagen - clickeable para abrir detalle */}
-      <div
-        className="relative aspect-square cursor-pointer group"
-        onClick={() => onOpenDetail(product)}
-      >
-        <Image
-          src={selectedColor.image}
-          alt={`${product.name} ${selectedColor.name}`}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+    // pt-12 on mobile creates the space the floating image peeks out from above the card
+    <div
+      className="relative pt-12 lg:pt-0 cursor-pointer"
+      onClick={() => onOpenDetail(product, color.id)}
+    >
+      {/* Mobile: cut-out image floats above-right of the card */}
+      {color.cutImage && (
+        <div className="lg:hidden absolute top-0 right-0 w-[55%] h-44 z-10 pointer-events-none">
+          <Image
+            src={color.cutImage}
+            alt={`${product.name} ${color.name}`}
+            fill
+            className="object-contain object-right-bottom"
+          />
+        </div>
+      )}
 
-        {/* Badge Coming Soon */}
-        {product.comingSoon && (
-          <div className="absolute top-3 left-3 px-3 py-1 bg-[#e31937] text-white text-xs font-bold rounded-full">
-            PROXIMAMENTE
+      <div className="bg-[#191919] rounded-2xl overflow-hidden flex flex-col border border-white/5 hover:border-white/10 transition-all">
+
+        {/* Desktop: image hero displayed at top of the card */}
+        {color.cutImage && (
+          <div className="hidden lg:block relative h-52 bg-gradient-to-b from-[#252525] to-[#191919]">
+            <Image
+              src={color.cutImage}
+              alt={`${product.name} ${color.name}`}
+              fill
+              className="object-contain py-3 px-6"
+            />
           </div>
         )}
 
-        {/* Overlay en hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-sm font-medium bg-black/50 px-4 py-2 rounded-full">
-            Ver detalles
-          </span>
-        </div>
-      </div>
+        <div className="p-3 flex flex-col gap-5">
+          {/* w-[60%] on mobile keeps content clear of the floating image on the right */}
+          <div className="w-[60%] lg:w-full flex flex-col gap-3">
 
-      {/* Info del producto */}
-      <div className="p-4 space-y-3">
-        {/* Nombre y claim */}
-        <div
-          className="cursor-pointer"
-          onClick={() => onOpenDetail(product)}
-        >
-          <h3 className="text-lg font-bold">{product.name}</h3>
-          <p className="text-sm text-white/60">{product.subtitle}</p>
-          <p className="text-xs text-white/40 mt-1 italic">{product.claim}</p>
-        </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <p className="text-2xl text-white">{product.name}</p>
+                <div
+                  className="hidden lg:block w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{
+                    backgroundColor: color.hex,
+                    border: color.id === 'blanco' ? '1px solid rgba(255,255,255,0.3)' : 'none',
+                  }}
+                />
+              </div>
+              <p className="text-[#a3a3a3] text-sm">{product.claim}</p>
+              <p className="hidden lg:block text-xs text-white/40 mt-0.5">{color.name}</p>
+            </div>
 
-        {/* Precio */}
-        <p className="text-xl font-bold">{formatPrice(currentPrice)}</p>
+            <p className="text-lg text-white">{formatPrice(currentPrice)}</p>
 
-        {/* Selector de color */}
-        <div>
-          <p className="text-xs text-white/40 mb-2">Color: {selectedColor.name}</p>
-          <ColorSelector
-            colors={product.colors}
-            selected={selectedColor.id}
-            onChange={setSelectedColor}
-            size="sm"
-          />
-        </div>
+            <div>
+              <p className="text-[11px] text-[#a3a3a3] mb-2">Seleccionar talla:</p>
+              <div className="flex gap-1.5">
+                {product.sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={(e) => { e.stopPropagation(); setSelectedSize(size) }}
+                    className={`w-6 h-6 rounded-[7px] text-[13px] shrink-0 transition-all ${
+                      selectedSize === size
+                        ? 'bg-white text-[#0d0d0d]'
+                        : 'bg-[#303030] text-[#a3a3a3] hover:bg-[#404040]'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
 
-        {/* Selector de talla */}
-        <div>
-          <p className="text-xs text-white/40 mb-2">Talla</p>
-          <SizeSelector
-            sizes={product.sizes}
-            selected={selectedSize}
-            onChange={setSelectedSize}
-            compact
-          />
-        </div>
-
-        {/* Botón agregar al carrito */}
-        <button
-          onClick={handleAddToCart}
-          disabled={!product.available}
-          className={`w-full py-3 rounded-lg font-semibold transition-all ${
-            !product.available
-              ? 'bg-white/10 text-white/40 cursor-not-allowed'
+          <button
+            onClick={(e) => { e.stopPropagation(); handleAddToCart() }}
+            disabled={!product.available}
+            className={`w-full py-3 rounded-2xl text-base transition-all ${
+              !product.available
+                ? 'bg-white/10 text-white/40 cursor-not-allowed'
+                : addedFeedback
+                ? 'bg-green-600 text-white'
+                : 'bg-[#e61535] hover:bg-[#c41530] text-white'
+            }`}
+          >
+            {!product.available
+              ? 'No disponible'
               : addedFeedback
-              ? 'bg-green-600 text-white'
-              : 'bg-[#e31937] hover:bg-[#c41530] text-white'
-          }`}
-        >
-          {!product.available
-            ? 'No disponible'
-            : addedFeedback
-            ? 'Agregado!'
-            : 'Agregar al carrito'}
-        </button>
+              ? '¡Agregado!'
+              : 'Agregar al carrito'}
+          </button>
+        </div>
       </div>
     </div>
   )

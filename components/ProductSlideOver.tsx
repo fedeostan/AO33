@@ -10,10 +10,11 @@ import { formatPrice, DEFAULT_SIZE, getPriceForSize } from '@/lib/utils'
 
 interface ProductSlideOverProps {
   product: Product | null
+  initialColorId?: string
   onClose: () => void
 }
 
-export default function ProductSlideOver({ product, onClose }: ProductSlideOverProps) {
+export default function ProductSlideOver({ product, initialColorId, onClose }: ProductSlideOverProps) {
   const { addItem } = useCart()
   const [selectedColor, setSelectedColor] = useState<ProductColor | null>(null)
   const [selectedSize, setSelectedSize] = useState(DEFAULT_SIZE)
@@ -39,16 +40,19 @@ export default function ProductSlideOver({ product, onClose }: ProductSlideOverP
   // Inicializar estado cuando cambia el producto
   useEffect(() => {
     if (product) {
-      setSelectedColor(product.colors[0])
+      const initialColor = initialColorId
+        ? (product.colors.find((c) => c.id === initialColorId) ?? product.colors[0])
+        : product.colors[0]
+      const colorIndex = product.colors.indexOf(initialColor)
+      setSelectedColor(initialColor)
+      setCurrentImageIndex(colorIndex)
       setSelectedSize(DEFAULT_SIZE)
       setQuantity(1)
-      setCurrentImageIndex(0)
-      // Delay para animación
       setTimeout(() => setIsVisible(true), 10)
     } else {
       setIsVisible(false)
     }
-  }, [product])
+  }, [product, initialColorId])
 
   // Sync color selection with image index
   const handleColorChange = (color: ProductColor) => {
